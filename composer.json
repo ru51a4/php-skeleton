@@ -1,0 +1,14 @@
+{
+    "name": "tarasby/php-skeleton",
+    "description": "Skeleton for MVC application",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Taras",
+            "email": "landgradus@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0"
+    }
+}
