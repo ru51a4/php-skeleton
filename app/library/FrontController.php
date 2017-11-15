@@ -30,8 +30,7 @@ class FrontController
             return $controller_class;
         } else {
             header("HTTP/1.0 404 Not Found");
-            echo 'Page not found!';
-            die;
+            exit('Page not found!');
         }
     }
 
@@ -41,8 +40,7 @@ class FrontController
             return $name;
         }else{
             header("HTTP/1.0 404 Not Found");
-            echo 'Page not found!';
-            die;
+            exit('Page not found!');
         }
     }
 
