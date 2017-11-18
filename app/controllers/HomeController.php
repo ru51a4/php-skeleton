@@ -8,10 +8,15 @@
 
 namespace App\Controllers;
 
-class HomeController
+/**
+ * Class HomeController
+ * @package App\Controllers
+ */
+class HomeController extends Controller
 {
     public function index()
     {
-        return 'Hello, world!';
+        $text = 'Hello, World!';
+        $this->view->render('home.index', compact('text'));
     }
 }
