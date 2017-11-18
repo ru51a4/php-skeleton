@@ -8,6 +8,7 @@
 
 namespace App\Controllers;
 
+use App\Library\Request;
 use App\Library\View;
 
 /**
@@ -17,6 +18,7 @@ use App\Library\View;
 class Controller
 {
     protected $view;
+    protected $request;
 
     /**
      * Controller constructor.
@@ -24,6 +26,7 @@ class Controller
     public function __construct()
     {
         $this->view = new View();
+        $this->request = new Request();
     }
 
     protected function notFound()

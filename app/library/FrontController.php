@@ -21,7 +21,7 @@ class FrontController extends Controller
 
     public function run()
     {
-        $route = $_GET['route'] ?? self::DEFAULT_ROUTE;
+        $route = $this->request->get['route'] ?? self::DEFAULT_ROUTE;
 
         @list($controller_name, $action_name) = explode('/', $route, 2);
 
