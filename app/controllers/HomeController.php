@@ -7,6 +7,7 @@
  */
 
 namespace App\Controllers;
+use App\Models\Post;
 
 /**
  * Class HomeController
@@ -16,7 +17,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $text = 'Hello, World!';
-        $this->view->render('home.index', compact('text'));
+        $posts = (new Post())->getAll();
+        $this->view->render('home.index', compact('posts'));
     }
 }

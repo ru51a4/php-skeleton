@@ -1,4 +1,8 @@
 <?php
-    $meta_title = 'Welcome!';
+$meta_title = 'Welcome!';
 ?>
-<p><?= $text ?></p>
+    <h1>Posts</h1>
+
+<?php foreach ($posts as $post) : ?>
+    <p><small><?= $post->date ?></small> <?= $post->title ?></p>
+<?php endforeach; ?>
