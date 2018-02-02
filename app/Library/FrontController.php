@@ -9,6 +9,7 @@
 namespace App\Library;
 
 use App\Controllers\Controller;
+use App\Route;
 
 /**
  * Class FrontController
@@ -17,13 +18,13 @@ use App\Controllers\Controller;
 class FrontController extends Controller
 {
 
-    const DEFAULT_ROUTE = 'home/index';
-
     public function run()
     {
-        $route = $this->request->get['route'] ?? self::DEFAULT_ROUTE;
+        if(empty($route = $this->getRoute())){
+            $this->notFound();
+        }
 
-        @list($controller_name, $action_name) = explode('/', $route, 2);
+        @list($controller_name, $action_name) = explode('@', $route, 2);
 
         if(!$controller_name or !$action_name){
             $this->notFound();
@@ -42,7 +43,7 @@ class FrontController extends Controller
      */
     private function getControllerClassOrFail($name)
     {
-        $controller_class = 'App\Controllers\\' . ucfirst($name) . 'Controller';
+        $controller_class = 'App\Controllers\\' . $name;
 
         if (class_exists($controller_class)) {
             return $controller_class;
@@ -63,5 +64,15 @@ class FrontController extends Controller
         } else {
             $this->notFound();
         }
+    }
+
+    /**
+     * @return null
+     */
+    private function getRoute()
+    {
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+        return Route::rules()[$path] ?? null;
     }
 }
