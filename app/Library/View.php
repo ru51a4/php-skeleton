@@ -14,8 +14,7 @@ namespace App\Library;
  */
 class View
 {
-
-    const PATH = APP . 'views' . DIRECTORY_SEPARATOR;
+    const PATH = APP . 'Views' . DIRECTORY_SEPARATOR;
     const LAYOUT = 'layout.php';
 
     /**
@@ -35,6 +34,4 @@ class View
 
         include self::PATH . self::LAYOUT;
     }
-
-
 }
