@@ -12,6 +12,6 @@ class HomeController extends Controller
     public function index()
     {
         $posts = (new Post())->getAll();
-        $this->response->render('home.index', compact('posts'));
+        return $this->response->render('home.index', compact('posts'));
     }
 }

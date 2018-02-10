@@ -2,4 +2,4 @@
 
 define('ROOT', realpath(__DIR__ . '/..') . '/');
 define('APP', ROOT . 'app/');
-define('CACHE', ROOT . 'var/cache/');
+define('VIEWS', APP . 'Views/');

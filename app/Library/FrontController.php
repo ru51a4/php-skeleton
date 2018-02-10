@@ -1,40 +1,46 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: taras
- * Date: 14.11.17
- * Time: 17:25
- */
 
 namespace App\Library;
 
-use App\Controllers\Controller;
 use App\Route;
 
-/**
- * Class FrontController
- * @package App\Library
- */
-class FrontController extends Controller
+class FrontController
 {
+    protected $request;
+    protected $response;
+
+    /**
+     * Controller constructor.
+     * @param Request $request
+     * @param Response $response
+     */
+    public function __construct(Request $request, Response $response)
+    {
+        $this->request = $request;
+        $this->response = $response;
+    }
 
     public function run()
     {
         if(empty($route = $this->getRoute())){
-            $this->notFound();
+            $this->sendNotFound();
         }
 
         @list($controller_name, $action_name) = explode('@', $route, 2);
 
         if(!$controller_name or !$action_name){
-            $this->notFound();
+            $this->sendNotFound();
         }
 
         $controller_class = $this->getControllerClassOrFail($controller_name);
         $controller_action = $this->getControllerActionOrFail($controller_class, $action_name);
 
-        $controller = new $controller_class();
-        $controller->$controller_action();
+        $controller = new $controller_class($this->request, $this->response);
+        $response = $controller->$controller_action();
+
+        if($response instanceof Response){
+            $response->send();
+        }
     }
 
     /**
@@ -48,7 +54,7 @@ class FrontController extends Controller
         if (class_exists($controller_class)) {
             return $controller_class;
         } else {
-            $this->notFound();
+            $this->sendNotFound();
         }
     }
 
@@ -62,17 +68,21 @@ class FrontController extends Controller
         if (method_exists($controller_class, $name)) {
             return $name;
         } else {
-            $this->notFound();
+            $this->sendNotFound();
         }
     }
 
+    private function sendNotFound()
+    {
+        $this->response->notFound();
+        $this->response->send();
+    }
+
     /**
-     * @return null
+     * @return string|null
      */
     private function getRoute()
     {
-        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-        return Route::rules()[$path] ?? null;
+        return Route::rules()[$this->request->path] ?? null;
     }
 }

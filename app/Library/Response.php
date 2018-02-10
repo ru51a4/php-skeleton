@@ -4,8 +4,7 @@ namespace App\Library;
 
 class Response
 {
-    const PATH = APP . 'Views' . DIRECTORY_SEPARATOR;
-    const LAYOUT = 'layout.php';
+    const LAYOUT_FILE = 'layout.php';
 
     private $headers = [];
     private $body;
@@ -35,24 +34,22 @@ class Response
      */
     public function notFound(): Response
     {
-        $this->error(404, 'Not Found');
+        $this->setHeader('HTTP/1.0 404 Not Found');
+        $this->render('error.404');
 
         return $this;
     }
 
     /**
      * @param $status
-     * @param $mesage
+     * @param $message
      * @return Response
      */
-    public function error($status, $mesage): Response
+    public function error($status, $message): Response
     {
-        $this->setHeader('HTTP/1.0 '.$status.' ' . $mesage);
+        $this->setHeader('HTTP/1.0 '.$status.' ' . $message);
 
-        $this->body = json_encode([
-            'status' => $status,
-            'message' => $mesage,
-        ]);
+        $this->body = $status . '. ' . $message;
         return $this;
     }
 
@@ -70,11 +67,12 @@ class Response
     /**
      * @param $template
      * @param array $params
+     * @return Response
      */
     public function render($template, $params = [])
     {
-        $template_path = self::PATH .
-            str_replace('.', DIRECTORY_SEPARATOR, $template) . '.php';
+        $template_path = VIEWS .
+            str_replace('.', '/', $template) . '.php';
 
         extract($params);
 
@@ -82,7 +80,10 @@ class Response
         include $template_path;
         $content =  ob_get_clean();
 
-        include self::PATH . self::LAYOUT;
-    }
+        ob_start();
+        include VIEWS . self::LAYOUT_FILE;
+        $this->body = ob_get_clean();
 
+        return $this;
+    }
 }

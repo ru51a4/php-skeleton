@@ -13,17 +13,12 @@ class Controller
 
     /**
      * Controller constructor.
+     * @param Request $request
+     * @param Response $response
      */
-    public function __construct()
+    public function __construct(Request $request, Response $response)
     {
-        $this->request = new Request();
-        $this->response = new Response();
-    }
-
-    protected function notFound()
-    {
-        header("HTTP/1.0 404 Not Found");
-        $this->response->render('error.404');
-        exit();
+        $this->request = $request;
+        $this->response = $response;
     }
 }
