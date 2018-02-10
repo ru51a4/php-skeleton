@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: taras
- * Date: 14.11.17
- * Time: 17:31
- */
 
 namespace App\Controllers;
 use App\Models\Post;
@@ -18,6 +12,6 @@ class HomeController extends Controller
     public function index()
     {
         $posts = (new Post())->getAll();
-        $this->view->render('home.index', compact('posts'));
+        $this->response->render('home.index', compact('posts'));
     }
 }

@@ -1,21 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: taras
- * Date: 18.11.17
- * Time: 22:11
- */
 
 namespace App\Library;
 
-/**
- * Class Request
- * @package App\Library
- */
 class Request
 {
     public $get;
     public $post;
+    public $path;
 
     /**
      * Request constructor.
@@ -24,5 +15,6 @@ class Request
     {
         $this->get = $_GET;
         $this->post = $_POST;
+        $this->path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
 }
