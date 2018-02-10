@@ -1,4 +1,6 @@
-FROM php:7.1-fpm
+FROM php:7.2-fpm
+
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN apt-get update \
 	&& apt-get install -y \
@@ -36,8 +38,7 @@ RUN docker-php-ext-enable xdebug \
     && echo "xdebug.idekey = \"PHPSTORM\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_port = 9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN usermod -u 1000 www-data
+# Change uid and gid to docker user uid/gid
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
-CMD php-fpm -F
-
-WORKDIR /app
+WORKDIR /var/www
