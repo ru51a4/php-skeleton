@@ -8,5 +8,5 @@ Build/run containers:
     $ docker-compose up -d 
     $ docker-compose exec --user="www-data" app composer install
 
-Run application: http://localhost:8000
+Run application: http://localhost:835
     
