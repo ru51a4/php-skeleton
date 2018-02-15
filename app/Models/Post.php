@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-use App\Library\Model;
+use App\Core\Model;
 
 /**
  * Class Post
