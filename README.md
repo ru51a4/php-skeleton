@@ -1,12 +1,12 @@
-# RUN APPLICATION
+# How To Use It 
 
-Build/run containers:
+Installation, build/run containers:
 
     $ git clone git@github.com:taras-by/php-skeleton.git
     $ cd php-skeleton
     $ docker-compose build
     $ docker-compose up -d 
-    $ docker-compose exec --user="www-data" app composer install
+    $ ./docker/console composer install
 
 Run application: http://localhost:835
     

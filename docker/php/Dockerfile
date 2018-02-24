@@ -1,6 +1,7 @@
 FROM php:7.2-fpm
 
-ENV COMPOSER_ALLOW_SUPERUSER 1
+WORKDIR /var/www
+ENV COMPOSER_HOME /var/www/docker/php/.composer
 
 RUN apt-get update \
 	&& apt-get install -y \
@@ -40,5 +41,3 @@ RUN docker-php-ext-enable xdebug \
 
 # Change uid and gid to docker user uid/gid
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
-
-WORKDIR /var/www
