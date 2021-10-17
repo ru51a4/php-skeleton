@@ -12,7 +12,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        //$posts = (new Post())->getAll();
+        $posts = (new Post())->getAll();
         return $this->response->render('home.index', compact('posts'));
     }
 
