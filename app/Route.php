@@ -14,6 +14,7 @@ class Route
     {
         return [
             '/page' => 'HomeController@index',
+            '/page/{id}' => 'HomeController@routeparams',
         ];
     }
 }
