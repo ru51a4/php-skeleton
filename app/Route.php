@@ -13,6 +13,7 @@ class Route
     public static function rules()
     {
         return [
+            '/' => 'HomeController@index',
             '/page' => 'HomeController@index',
             '/page/{id}' => 'HomeController@routeparams',
         ];
