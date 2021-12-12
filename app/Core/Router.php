@@ -25,12 +25,26 @@ class Router
      */
     public function getRoute()
     {
+        $parseRoute = function ($url) {
+            $res = [];
+            $url = explode("/", $url);
+            foreach ($url as $item) {
+                $item = ["type" => "route", "value" => $item];
+                if (strpos($item['value'], "{") !== false) {
+                    $item['type'] = 'parameter';
+                    $item['value'] = substr($item['value'], 1);
+                    $item['value'] = substr($item['value'], 0, -1);
+                }
+                $res[] = $item;
+            }
+            return $res;
+        };
         //если роуты совпадают и кол-во такое же
-        $currentUrl = $this->parseRoute($this->request->path);
+        $currentUrl = $parseRoute($this->request->path);
         $find = true;
         $params = [];
         foreach (Route::rules() as $key => $item) {
-            $currentRouteUrl = $this->parseRoute($key);
+            $currentRouteUrl = $parseRoute($key);
             for ($i = 0; $i <= count($currentRouteUrl); $i++) {
                 if ($currentRouteUrl[$i]['type'] == "route") {
                     if ($currentRouteUrl[$i]['value'] != $currentUrl[$i]['value']) {
@@ -52,21 +66,6 @@ class Router
         return null;
     }
 
-    private function parseRoute($url)
-    {
-        $res = [];
-        $url = explode("/", $url);
-        foreach ($url as $item) {
-            $item = ["type" => "route", "value" => $item];
-            if (strpos($item['value'], "{") !== false) {
-                $item['type'] = 'parameter';
-                $item['value'] = substr($item['value'], 1);
-                $item['value'] = substr($item['value'], 0, -1);
-            }
-            $res[] = $item;
-        }
-        return $res;
-    }
 
     /**
      * @return string
